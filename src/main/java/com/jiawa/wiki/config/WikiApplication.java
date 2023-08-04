@@ -11,7 +11,6 @@ import org.springframework.core.env.Environment;
 //@ComponentScan({"com.jiawa", "com.test"})  扫描多个包的示例写法
 @SpringBootApplication
 public class WikiApplication {
-
     private static final Logger LOG = LoggerFactory.getLogger(WikiApplication.class);
 
     public static void main(String[] args) {
