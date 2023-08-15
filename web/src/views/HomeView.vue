@@ -75,19 +75,6 @@ import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
 import { StarOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons-vue';
 import axios from "axios";
 
-const listData: any = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
-    avatar: 'https://joeschmoe.io/api/v1/random',
-    description:
-        'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
-
 export default defineComponent({
   name: 'HomeView',
   // setup: 页面一加载进来就执行
@@ -99,7 +86,7 @@ export default defineComponent({
     // 生命周期函数，初始化如果直接写在setup里面，可能组件没有渲染好就加载数据上去，就会报错
     onMounted(() => {
       console.log("onMounted");
-      axios.get("http://localhost:8080/ebook/list?name=Spring").then((response) => {
+      axios.get("http://localhost:8080/ebook/list").then((response) => {
         const data = response.data;
         ebooks.value = data.content;
         ebooks1.books = data.content;
@@ -109,13 +96,6 @@ export default defineComponent({
     return {
       ebooks,
       ebooks2: toRef(ebooks1, "books"),
-      listData,
-      pagination : {
-        onChange: (page: any) => {
-          console.log(page);
-        },
-        pageSize: 3,
-      },
       actions: [
         { icon: StarOutlined, text: '156' },
         { icon: LikeOutlined, text: '156' },
@@ -125,3 +105,14 @@ export default defineComponent({
   }
 });
 </script>
+
+// scoped意思是只在HomeView这个页面生效
+<style scoped>
+  .ant-avatar {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 8%;
+    margin: 5px 0;
+  }
+</style>
