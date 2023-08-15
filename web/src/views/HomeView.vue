@@ -48,24 +48,40 @@
     <a-layout-content
         :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
     >
-      Content
+      <pre>
+{{ ebooks }}
+{{ebooks2}}
+      </pre>
     </a-layout-content>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref, reactive, toRef } from 'vue';
 import axios from "axios";
 
 export default defineComponent({
   name: 'HomeView',
   // setup: 页面一加载进来就执行
   setup() {
-    console.log("setup");
-    axios.get("http://localhost:8080/ebook/list?name=Spring").then((response) => {
-      console.log(response);
+    // 定义响应式变量
+    const ebooks = ref();
+    const ebooks1 = reactive({books: []});
+
+    // 生命周期函数，初始化如果直接写在setup里面，可能组件没有渲染好就加载数据上去，就会报错
+    onMounted(() => {
+      console.log("onMounted");
+      axios.get("http://localhost:8080/ebook/list?name=Spring").then((response) => {
+        const data = response.data;
+        ebooks.value = data.content;
+        ebooks1.books = data.content;
+      });
     })
 
+    return {
+      ebooks,
+      ebooks2: toRef(ebooks1, "books")
+    }
   }
 });
 </script>
