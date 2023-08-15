@@ -7,3 +7,6 @@ import 'ant-design-vue/dist/reset.css'
 
 const app = createApp(App);
 app.use(store).use(router).use(Antd).mount('#app');
+
+console.log('环境: ', process.env.NODE_ENV);
+console.log('服务端: ', process.env.VUE_APP_SERVER);
